@@ -268,6 +268,10 @@ func (p *Markdown) prefixHeading(data []byte) int {
 }
 
 func (p *Markdown) isUnderlinedHeading(data []byte) int {
+	if p.extensions&NoUnderlineHeadings != 0 {
+		return 0
+	}
+
 	// test of level 1 heading
 	if data[0] == '=' {
 		i := skipChar(data, 1, '=')
@@ -537,7 +541,7 @@ func (*Markdown) isEmpty(data []byte) int {
 	return i
 }
 
-func (*Markdown) isHRule(data []byte) bool {
+func (p *Markdown) isHRule(data []byte) bool {
 	i := 0
 
 	// skip up to three spaces

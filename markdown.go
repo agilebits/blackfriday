@@ -47,6 +47,9 @@ const (
 	AutoHeadingIDs                                // Create the heading ID from the text
 	BackslashLineBreak                            // Translate trailing backslashes into line breaks
 	DefinitionLists                               // Render definition lists
+	NoLinks                                       // Ignore links and images
+	NoUnderlineHeadings                           // Ignore underlined h1s and h2s
+	SingleEmphasis                                // Render _italic_ and *bold*
 
 	CommonHTMLFlags HTMLFlags = UseXHTML | Smartypants |
 		SmartypantsFractions | SmartypantsDashes | SmartypantsLatexDashes
@@ -291,11 +294,13 @@ func New(opts ...Option) *Markdown {
 	}
 	p.inlineCallback['`'] = codeSpan
 	p.inlineCallback['\n'] = lineBreak
-	p.inlineCallback['['] = link
+	if p.extensions&NoLinks == 0 {
+		p.inlineCallback['['] = link
+		p.inlineCallback['!'] = maybeImage
+	}
 	p.inlineCallback['<'] = leftAngle
 	p.inlineCallback['\\'] = escape
 	p.inlineCallback['&'] = entity
-	p.inlineCallback['!'] = maybeImage
 	p.inlineCallback['^'] = maybeInlineFootnote
 	if p.extensions&Autolink != 0 {
 		p.inlineCallback['h'] = maybeAutoLink

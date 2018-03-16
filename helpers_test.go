@@ -61,6 +61,12 @@ func doTests(t *testing.T, tests []string) {
 	})
 }
 
+func doAGTests(t *testing.T, tests []string) {
+	doTestsParam(t, tests, TestParams{
+		extensions: NoLinks | NoUnderlineHeadings | SingleEmphasis | Strikethrough | NoIntraEmphasis,
+	})
+}
+
 func doTestsBlock(t *testing.T, tests []string, extensions Extensions) {
 	doTestsParam(t, tests, TestParams{
 		extensions: extensions,

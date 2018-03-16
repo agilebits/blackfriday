@@ -76,7 +76,7 @@ func emphasis(p *Markdown, data []byte, offset int) (int, *Node) {
 	if len(data) > 2 && data[1] != c {
 		// whitespace cannot follow an opening emphasis;
 		// strikethrough only takes two characters '~~'
-		if c == '~' || isspace(data[1]) {
+		if (p.extensions&SingleEmphasis == 0 && c == '~') || isspace(data[1]) {
 			return 0, nil
 		}
 		ret, node := helperEmphasis(p, data[1:], c)
@@ -87,7 +87,7 @@ func emphasis(p *Markdown, data []byte, offset int) (int, *Node) {
 		return ret + 1, node
 	}
 
-	if len(data) > 3 && data[1] == c && data[2] != c {
+	if p.extensions&SingleEmphasis == 0 && len(data) > 3 && data[1] == c && data[2] != c {
 		if isspace(data[2]) {
 			return 0, nil
 		}
@@ -99,7 +99,7 @@ func emphasis(p *Markdown, data []byte, offset int) (int, *Node) {
 		return ret + 2, node
 	}
 
-	if len(data) > 4 && data[1] == c && data[2] == c && data[3] != c {
+	if p.extensions&SingleEmphasis == 0 && len(data) > 4 && data[1] == c && data[2] == c && data[3] != c {
 		if c == '~' || isspace(data[3]) {
 			return 0, nil
 		}
@@ -1126,7 +1126,19 @@ func helperEmphasis(p *Markdown, data []byte, c byte) (int, *Node) {
 				}
 			}
 
-			emph := NewNode(Emph)
+			var emph *Node
+			if p.extensions&SingleEmphasis != 0 {
+				switch c {
+				case '*':
+					emph = NewNode(Strong)
+				case '_':
+					emph = NewNode(Emph)
+				case '~':
+					emph = NewNode(Del)
+				}
+			} else {
+				emph = NewNode(Emph)
+			}
 			p.inline(emph, data[:i])
 			return i + 1, emph
 		}

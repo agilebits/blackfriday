@@ -36,3 +36,38 @@ func TestDocument(t *testing.T) {
 	}
 	doTests(t, tests)
 }
+
+func TestAGExtensions(t *testing.T) {
+	var tests = []string{
+		"Ignore [this](https://this.com)",
+		"<p>Ignore [this](https://this.com)</p>\n",
+
+		"Ignore ![this image](https://this.com)",
+		"<p>Ignore ![this image](https://this.com)</p>\n",
+
+		"Divide\n---\nDon't head",
+		"<p>Divide</p>\n\n<hr>\n\n<p>Don't head</p>\n",
+
+		"Hello *world*",
+		"<p>Hello <strong>world</strong></p>\n",
+
+		"Hello _world_",
+		"<p>Hello <em>world</em></p>\n",
+
+		"Hello *_world_*",
+		"<p>Hello <strong><em>world</em></strong></p>\n",
+
+		"Hello ~world~",
+		"<p>Hello <del>world</del></p>\n",
+
+		"Hello **world**",
+		"<p>Hello **world**</p>\n",
+
+		"This *is_p_unctuation*",
+		"<p>This <strong>is_p_unctuation</strong></p>\n",
+
+		"#### H3 is the biggest header",
+		"<h3># is the biggest header</h3>",
+	}
+	doAGTests(t, tests)
+}
