@@ -1313,6 +1313,7 @@ gatherlines:
 
 				if listTypeChanged {
 					*flags |= ListItemEndOfList
+					*flags &= ^ListItemContainsBlock
 				}
 
 				break gatherlines
