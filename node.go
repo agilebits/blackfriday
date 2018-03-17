@@ -36,6 +36,7 @@ const (
 	TableHead
 	TableBody
 	TableRow
+	InlinePre
 )
 
 var nodeTypeNames = []string{

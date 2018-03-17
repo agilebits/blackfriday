@@ -66,8 +66,16 @@ func TestAGExtensions(t *testing.T) {
 		"This *is_p_unctuation*",
 		"<p>This <strong>is_p_unctuation</strong></p>\n",
 
-		"#### H3 is the biggest header",
-		"<h3># is the biggest header</h3>",
+		"This should be `normal <strong>code</strong>`",
+		"<p>This should be <code>normal &lt;strong&gt;code&lt;/strong&gt;</code></p>\n",
+
+		"This should be ```multi-line\n pre-formatted *text*```",
+		"<p>This should be \n<pre>multi-line\n pre-formatted *text*</pre>\n</p>\n",
+		"```pre```",
+		"<p>\n<pre>pre</pre>\n</p>\n",
+
+		"1. Hello\n2. World\n* Bye\n* World",
+		"<ol>\n<li>Hello</li>\n<li>World</li>\n</ol>\n\n<ul>\n<li>Bye</li>\n<li>World</li>\n</ul>\n",
 	}
 	doAGTests(t, tests)
 }

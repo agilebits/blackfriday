@@ -30,26 +30,28 @@ type Extensions int
 // These are the supported markdown parsing extensions.
 // OR these values together to select multiple extensions.
 const (
-	NoExtensions           Extensions = 0
-	NoIntraEmphasis        Extensions = 1 << iota // Ignore emphasis markers inside words
-	Tables                                        // Render tables
-	FencedCode                                    // Render fenced code blocks
-	Autolink                                      // Detect embedded URLs that are not explicitly marked
-	Strikethrough                                 // Strikethrough text using ~~test~~
-	LaxHTMLBlocks                                 // Loosen up HTML block parsing rules
-	SpaceHeadings                                 // Be strict about prefix heading rules
-	HardLineBreak                                 // Translate newlines into line breaks
-	TabSizeEight                                  // Expand tabs to eight spaces instead of four
-	Footnotes                                     // Pandoc-style footnotes
-	NoEmptyLineBeforeBlock                        // No need to insert an empty line to start a (code, quote, ordered list, unordered list) block
-	HeadingIDs                                    // specify heading IDs  with {#id}
-	Titleblock                                    // Titleblock ala pandoc
-	AutoHeadingIDs                                // Create the heading ID from the text
-	BackslashLineBreak                            // Translate trailing backslashes into line breaks
-	DefinitionLists                               // Render definition lists
-	NoLinks                                       // Ignore links and images
-	NoUnderlineHeadings                           // Ignore underlined h1s and h2s
-	SingleEmphasis                                // Render _italic_ and *bold*
+	NoExtensions             Extensions = 0
+	NoIntraEmphasis          Extensions = 1 << iota // Ignore emphasis markers inside words
+	Tables                                          // Render tables
+	FencedCode                                      // Render fenced code blocks
+	Autolink                                        // Detect embedded URLs that are not explicitly marked
+	Strikethrough                                   // Strikethrough text using ~~test~~
+	LaxHTMLBlocks                                   // Loosen up HTML block parsing rules
+	SpaceHeadings                                   // Be strict about prefix heading rules
+	HardLineBreak                                   // Translate newlines into line breaks
+	TabSizeEight                                    // Expand tabs to eight spaces instead of four
+	Footnotes                                       // Pandoc-style footnotes
+	NoEmptyLineBeforeBlock                          // No need to insert an empty line to start a (code, quote, ordered list, unordered list) block
+	HeadingIDs                                      // specify heading IDs  with {#id}
+	Titleblock                                      // Titleblock ala pandoc
+	AutoHeadingIDs                                  // Create the heading ID from the text
+	BackslashLineBreak                              // Translate trailing backslashes into line breaks
+	DefinitionLists                                 // Render definition lists
+	InlinePreformattedBlocks                        // Allow inline ``` blocks like in Slack
+	NoLinks                                         // Ignore links and images
+	NoPrefixHeadings                                // Ignore prefixed h1-h6
+	NoUnderlineHeadings                             // Ignore underlined h1s and h2s
+	SingleEmphasis                                  // Render _italic_ *bold* and ~strikethrough~
 
 	CommonHTMLFlags HTMLFlags = UseXHTML | Smartypants |
 		SmartypantsFractions | SmartypantsDashes | SmartypantsLatexDashes

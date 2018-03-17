@@ -815,6 +815,12 @@ func (r *HTMLRenderer) RenderNode(w io.Writer, node *Node, entering bool) WalkSt
 			r.out(w, trCloseTag)
 			r.cr(w)
 		}
+	case InlinePre:
+		r.cr(w)
+		r.out(w, preTag)
+		escapeHTML(w, node.Literal)
+		r.out(w, preCloseTag)
+		r.cr(w)
 	default:
 		panic("Unknown node type " + node.Type.String())
 	}

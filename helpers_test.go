@@ -63,7 +63,7 @@ func doTests(t *testing.T, tests []string) {
 
 func doAGTests(t *testing.T, tests []string) {
 	doTestsParam(t, tests, TestParams{
-		extensions: NoLinks | NoUnderlineHeadings | SingleEmphasis | Strikethrough | NoIntraEmphasis,
+		extensions: NoLinks | NoUnderlineHeadings | SingleEmphasis | Strikethrough | NoIntraEmphasis | InlinePreformattedBlocks | NoPrefixHeadings,
 	})
 }
 

@@ -205,10 +205,13 @@ func (p *Markdown) addBlock(typ NodeType, content []byte) *Node {
 }
 
 func (p *Markdown) isPrefixHeading(data []byte) bool {
-	if data[0] != '#' {
+	if p.extensions&NoPrefixHeadings != 0 {
 		return false
 	}
 
+	if data[0] != '#' {
+		return false
+	}
 	if p.extensions&SpaceHeadings != 0 {
 		level := 0
 		for level < 6 && level < len(data) && data[level] == '#' {
@@ -1285,7 +1288,7 @@ gatherlines:
 
 		// evaluate how this line fits in
 		switch {
-		// is this a nested list item?
+		// is this a possible nested list item?
 		case (p.uliPrefix(chunk) > 0 && !p.isHRule(chunk)) ||
 			p.oliPrefix(chunk) > 0 ||
 			p.dliPrefix(chunk) > 0:
@@ -1295,8 +1298,23 @@ gatherlines:
 			}
 
 			// to be a nested list, it must be indented more
-			// if not, it is the next item in the same list
+			// if not, it is either a different kind of list
+			// or the next item in the same list
 			if indent <= itemIndent {
+				// are there different kinds of lists back-to-back?
+				var listTypeChanged bool
+				if p.dliPrefix(chunk) > 0 && *flags&ListTypeDefinition == 0 {
+					listTypeChanged = true
+				} else if p.oliPrefix(chunk) > 0 && *flags&ListTypeOrdered == 0 {
+					listTypeChanged = true
+				} else if p.uliPrefix(chunk) > 0 && (*flags&ListTypeOrdered != 0 || *flags&ListTypeDefinition != 0) {
+					listTypeChanged = true
+				}
+
+				if listTypeChanged {
+					*flags |= ListItemEndOfList
+				}
+
 				break gatherlines
 			}
 
