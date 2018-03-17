@@ -152,10 +152,15 @@ func codeSpan(p *Markdown, data []byte, offset int) (int, *Node) {
 
 	// render the code span
 	if fBegin != fEnd {
-		if p.extensions&InlinePreformattedBlocks != 0 && nb == 3 {
-			code := NewNode(InlinePre)
-			code.Literal = data[fBegin:fEnd]
-			return end, code
+		if p.extensions&InlinePreformattedBlocks != 0 && nb > 1 {
+			if nb == 2 {
+				text := NewNode(Text)
+				text.Literal = data[fBegin:fEnd]
+				return end, text
+			}
+			pre := NewNode(InlinePre)
+			pre.Literal = data[fBegin:fEnd]
+			return end, pre
 		}
 		code := NewNode(Code)
 		code.Literal = data[fBegin:fEnd]
