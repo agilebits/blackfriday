@@ -1,6 +1,8 @@
 Blackfriday is distributed under the Simplified BSD License:
 
 > Copyright © 2011 Russ Ross
+> Portions Copyright © 2018 AgileBits
+>
 > All rights reserved.
 >
 > Redistribution and use in source and binary forms, with or without
